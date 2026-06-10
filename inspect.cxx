@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
     {
         object ps = read_dump(filename);
 
-        std::cout << "obj1:" << bj::serialize(ps) << std::endl;
+        //std::cout << "obj1:" << bj::serialize(ps) << std::endl;
         {
             std::ofstream ofile(temp, std::ios::binary);
             boost::archive::binary_oarchive oBinaryArchive(ofile);
