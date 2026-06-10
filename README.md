@@ -9,4 +9,9 @@ cmake -B build -S . \
 
 gdcmraw -t 0065,106c input.dcm uih.raw
 
-./inspect uih.raw
+./Debug/inspect.exe uih.raw
+
+lib version: 14
+22 serialization::archive 20 0 0 0 0 2 0 0 0 11 CoilCombine -1 0  0 13 CardiacT2MOCO 1 4 MOCO 0
+lib version: 20
+22 serialization::archive 20 0 0 0 0 2 0 0 0 11 CoilCombine -1 0  0 13 CardiacT2MOCO 1 4 MOCO 0
