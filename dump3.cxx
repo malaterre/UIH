@@ -14,7 +14,11 @@ struct element
 {
     std::string key;
     int64_t val_int64;
+#if 0
     int64_t val2;
+#else
+    std::string val_str;
+#endif
     int64_t zero64;
 };
 
@@ -47,7 +51,7 @@ void serialize(Archive& ar, element& el, const unsigned int version)
 {
     ar & el.key
        & el.val_int64
-       & el.val2
+       & el.val_str
        & el.zero64;
 }
  
@@ -89,34 +93,15 @@ int main()
     Array ps;
     element el{};
     {
-        // 75456bd7def8b0ba300dcdd42aba0933
+        // a612941d42f6f403855a76d040a932c1
         el.key = "CoilCombine";
         el.val_int64 = -1;
-        el.val2 = 0;
-        el.zero64 = 0;
+        el.val_str = "";
         ps.map.push_back(el);
-//        el.key = "ADC";
-//        el.val = 0;
-//        ps.map.push_back(el);
-//        ps.junk0=  0;
-//        ps.junk1=  0x200;
-//        ps.junk2=  0x0;
-//        ps.junk3=  0x0;
-//        ps.junk4=  0x0;
-//        ps.junk5=  0x0;
-////        ps.junk.push_back(  4);
-////        ps.junk.push_back(  5);
-////        ps.map.emplace(  "CoilCombine", 4);
-////        ps.map.emplace(  "ADC", 1);
-//        ps.category=  "CoilCombine";
-////        ps.operation=  "ADC";
-//        ps.param2 = -1; // 0
-//
-//        ps.inputSeries = "ADC";
-//        ps.enabled = true;
-//
-//        ps.outputSeries = "ADC";
-//        ps.flags = 0;
+        el.key = "Standard";
+        el.val_int64 = 0;
+        el.val_str = "";
+        ps.map.push_back(el);
     }
     std::vector<std::string> v;
     v.emplace_back("Standard");
