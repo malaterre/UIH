@@ -8,7 +8,6 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/map.hpp>
 //#include <boost/serialization/any.hpp>
-#include <boost/any.hpp>
 
 struct element
 {

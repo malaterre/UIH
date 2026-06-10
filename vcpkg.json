@@ -1,7 +1,7 @@
 {
    "dependencies" : [
       {
-         "name" : "boost-any"
+         "name" : "boost-json"
       },
       {
          "name" : "boost-serialization"

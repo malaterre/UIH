@@ -8,6 +8,9 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/serialization/vector.hpp>
 
+#include <boost/json/src.hpp>
+
+namespace bj = boost::json;
 
 namespace
 {
@@ -43,6 +46,21 @@ namespace
     {
         ar & data.array;
     }
+
+    object read_dump(const char* filename)
+    {
+        object ps{};
+        std::ifstream ifile(filename, std::ios::binary);
+        boost::archive::binary_iarchive iBinaryArchive(ifile);
+        iBinaryArchive >> ps;
+        // originals are 14
+        auto v = iBinaryArchive.get_library_version();
+        std::cout << "lib version: " << v << std::endl;
+
+        boost::archive::text_oarchive oTextArchive(std::cout);
+        oTextArchive << ps;
+        return ps;
+    }
 }
 
 int main(int argc, char* argv[])
@@ -50,18 +68,25 @@ int main(int argc, char* argv[])
     if (argc < 2) return 1;
 
     const char* filename = argv[1];
-    object ps{};
+    const char temp[] = "temp.raw";
+    try
+    {
+        object ps = read_dump(filename);
 
-    std::ifstream ifile(filename, std::ios::binary);
-    boost::archive::binary_iarchive iBinaryArchive(ifile);
-    iBinaryArchive >> ps;
+        std::cout << "obj1:" << bj::serialize(ps) << std::endl;
+        {
+            std::ofstream ofile(temp, std::ios::binary);
+            boost::archive::binary_oarchive oBinaryArchive(ofile);
+            oBinaryArchive << ps;
+        } // flush
 
-    boost::archive::text_oarchive oTextArchive(std::cout);
-    oTextArchive << ps;
-
-    std::ofstream ofile("output.raw", std::ios::binary);
-    boost::archive::binary_oarchive oBinaryArchive(ofile);
-    oBinaryArchive << ps;
+        read_dump(temp);
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
 
     return 0;
 }
